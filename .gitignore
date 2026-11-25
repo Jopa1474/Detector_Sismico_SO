@@ -1,0 +1,48 @@
+# ---------- Compilación C ----------
+build/
+bin/
+*.o
+*.obj
+*.so
+*.a
+*.out
+*.elf
+
+# ---------- Módulo de kernel (driver/) ----------
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.cmd
+.*.cmd
+Module.symvers
+modules.order
+.tmp_versions/
+*.dwo
+
+# ---------- Secretos ----------
+# La llave AES se copia a mano a cada nodo (scp), NUNCA se sube a git.
+*.key
+*.pem
+
+# ---------- Configuración local del clúster ----------
+# Cada quien tiene IPs distintas; se versiona solo el .example
+cluster/hostfile
+
+# ---------- Datos y resultados generados ----------
+data/*
+!data/.gitkeep
+results*.csv
+*.log
+vgcore.*
+core
+core.*
+
+# ---------- Editores / SO ----------
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,8 @@
+# Fuerza finales de línea LF: si alguien edita desde Windows, los Makefiles
+# y scripts siguen funcionando en Linux.
+* text=auto eol=lf
+
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
