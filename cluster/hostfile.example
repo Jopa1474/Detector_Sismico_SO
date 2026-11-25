@@ -1,0 +1,9 @@
+# Copiar como cluster/hostfile y poner las IPs reales de las 3 máquinas.
+# slots=2 en la primera porque ahí corren el coordinador (rank 0) y el Nodo 1 (rank 1).
+#   rank 0 coordinador -> maquina1
+#   rank 1 STA/LTA     -> maquina1
+#   rank 2 FFT         -> maquina2
+#   rank 3 estadística -> maquina3
+192.168.1.10 slots=2
+192.168.1.11 slots=1
+192.168.1.12 slots=1
