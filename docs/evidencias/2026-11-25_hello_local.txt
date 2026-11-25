@@ -1,0 +1,21 @@
+mpirun  -np 4 --oversubscribe bin/mpi_hello --key cluster.key
+== 1. Procesos (4) ==
+  rank 0  coordinador      en 'jose-pablo-Yoga-7-15ITL5'  (Open MPI v4.1.6)
+  rank 1  nodo 1 STA/LTA   en 'jose-pablo-Yoga-7-15ITL5'  (Open MPI v4.1.6)
+  rank 2  nodo 2 FFT       en 'jose-pablo-Yoga-7-15ITL5'  (Open MPI v4.1.6)
+  rank 3  nodo 3 stats     en 'jose-pablo-Yoga-7-15ITL5'  (Open MPI v4.1.6)
+  máquinas distintas: 1 (para la demo deben ser 3; en local es normal ver 1)
+== 2. Versión de OpenMPI ==
+  [OK] todas iguales
+== 3. Llave AES ==
+  [OK] todos los procesos cargaron una llave
+== 4. Latencia sin cifrar (1 B, ida y vuelta, promedio de 200) ==
+  0 <-> 1 :      1.0 µs
+  0 <-> 2 :      1.0 µs
+  0 <-> 3 :      1.0 µs
+== 5. Eco cifrado AES-256-GCM (3216 B por mensaje) ==
+  0 <-> 1 : [OK] llegó idéntico  (5.53 ms)
+  0 <-> 2 : [OK] llegó idéntico  (4.25 ms)
+  0 <-> 3 : [OK] llegó idéntico  (2.63 ms)
+
+RESULTADO: clúster listo para 'make run-cluster'.
