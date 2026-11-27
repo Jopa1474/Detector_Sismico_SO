@@ -4,7 +4,8 @@
  *   rank 0 -> coordinador, rank 1 -> STA/LTA, rank 2 -> FFT, rank 3 -> estadísticas
  *
  * Uso:
- *   mpirun -np 4 bin/seismic_cluster <datos.csv> [--realtime] [--out resultados.csv] [--key cluster.key]
+ *   mpirun -np 4 bin/seismic_cluster <datos.csv | /dev/seismic0> [--realtime]
+ *          [--out resultados.csv] [--key cluster.key] [--max-windows N]
  */
 #include "common.h"
 #include "coordinator.h"
@@ -13,12 +14,13 @@
 
 #include <mpi.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static void usage(const char *p)
 {
-    fprintf(stderr, "uso: mpirun -np %d %s <datos.csv> [--realtime] [--out resultados.csv] [--key archivo]\n",
-            N_RANKS, p);
+    fprintf(stderr, "uso: mpirun -np %d %s <datos.csv | /dev/seismic0> [--realtime] [--out resultados.csv]\n"
+                    "       [--key archivo] [--max-windows N]\n", N_RANKS, p);
 }
 
 int main(int argc, char **argv)
@@ -39,10 +41,12 @@ int main(int argc, char **argv)
 
     const char *data = NULL, *out = NULL, *key = NULL;
     int realtime = 0;
+    unsigned max_windows = 0;
     for (int i = 1; i < argc; i++) {
         if (!strcmp(argv[i], "--realtime")) realtime = 1;
         else if (!strcmp(argv[i], "--out") && i + 1 < argc) out = argv[++i];
         else if (!strcmp(argv[i], "--key") && i + 1 < argc) key = argv[++i];
+        else if (!strcmp(argv[i], "--max-windows") && i + 1 < argc) max_windows = (unsigned)strtoul(argv[++i], NULL, 10);
         else if (argv[i][0] != '-') data = argv[i];
     }
 
@@ -54,7 +58,7 @@ int main(int argc, char **argv)
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
 
-    int rc = (rank == RANK_COORD) ? run_coordinator(data, realtime, out) : run_node(rank);
+    int rc = (rank == RANK_COORD) ? run_coordinator(data, realtime, out, max_windows) : run_node(rank);
 
     sec_cleanup();
     MPI_Finalize();

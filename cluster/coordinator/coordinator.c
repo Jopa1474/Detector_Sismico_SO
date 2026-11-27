@@ -6,7 +6,11 @@
  *   2. Arma la ventana de WIN muestras (50 % de solapamiento).
  *   3. La envía cifrada a los 3 nodos.
  *   4. Recibe los 3 resultados (cifrados) y verifica que sean de la misma ventana.
- *   5. Calcula IAV / nivel / alarma y lo reporta.
+ *   5. Calcula IAV / nivel / alarma, lo reporta y lo manda al servo y al buzzer.
+ *
+ * La fuente puede ser un CSV o el sensor (ver source.h). Con el sensor los datos
+ * llegan solos a 100 Hz, así que no se espera entre ventanas, y el ciclo termina
+ * al llegar a max_windows (0 = sin límite, hasta Ctrl+C).
  */
 #include "coordinator.h"
 #include "common.h"
@@ -43,7 +47,8 @@ static void sleep_ms(long ms)
     nanosleep(&ts, NULL);
 }
 
-int run_coordinator(const char *data_path, int realtime, const char *results_path)
+int run_coordinator(const char *data_path, int realtime, const char *results_path,
+                    unsigned max_windows)
 {
     if (source_open(data_path) != 0) {
         send_stop_all();
@@ -70,8 +75,10 @@ int run_coordinator(const char *data_path, int realtime, const char *results_pat
 
     uint32_t id = 0;
     uint32_t n_new = WIN;
+    const int live = source_is_live();
+    if (live) realtime = 0;     /* el sensor ya marca el ritmo */
     printf("[coord] procesando '%s' (ventanas de %d muestras, avance %d)%s\n",
-           data_path, WIN, HOP, realtime ? " en tiempo real" : "");
+           data_path, WIN, HOP, live ? " desde el sensor" : realtime ? " en tiempo real" : "");
     fflush(stdout);
 
     for (;;) {
@@ -125,8 +132,10 @@ int run_coordinator(const char *data_path, int realtime, const char *results_pat
                     rs.rms, rs.pga, rs.std, fo.iav, level_name(fo.level), fo.alarm,
                     fo.servo_deg, ms);
 
-        /* TODO (integración final): enviar fo.servo_deg y fo.alarm al hardware
-         * mediante libseismic (p. ej. seismic_set_servo / seismic_set_alarm). */
+        /* Servo y buzzer (con CSV no hace nada). */
+        source_actuate(fo.servo_deg, fo.alarm);
+
+        if (max_windows && id >= max_windows) break;
 
         /* --- 1. Desplazar HOP muestras y leer las nuevas --- */
         memmove(buf, buf + HOP, (WIN - HOP) * sizeof(sample_t));
@@ -142,6 +151,7 @@ int run_coordinator(const char *data_path, int realtime, const char *results_pat
 
 done:
     send_stop_all();
+    source_actuate(0, 0);       /* dejar el hardware en reposo */
     if (log) fclose(log);
     source_close();
     return 0;
