@@ -67,6 +67,23 @@ Guía detallada con solución de problemas: [docs/cluster_setup.md](docs/cluster
 Si `mpirun` se queda pegado entre máquinas, casi siempre es el firewall o que elige la
 interfaz de red equivocada: probar con `MPIFLAGS="--mca btl_tcp_if_include <interfaz>"`.
 
+## Leer del sensor (entrega final)
+
+El coordinador acepta un CSV o el dispositivo como fuente:
+
+```bash
+make run-device ARGS="--max-windows 60"        # esta máquina, lee /dev/seismic0
+make run-cluster DATA=/dev/seismic0             # las 3 máquinas; el sensor va en la máquina 1
+```
+
+Mientras no existan el driver y la biblioteca real, el programa se enlaza con la biblioteca
+simulada (`lib/mock`), que genera el mismo escenario de 60 s a 100 Hz y escribe en pantalla
+las órdenes de servo y alarma. Con `SEISMIC_MOCK_FAST=1` no espera entre muestras.
+Cuando la biblioteca real esté lista: `make clean && make SEISMIC_LIB=real`.
+
+Contratos entre partes: `include/seismic.h` (coordinador ↔ biblioteca) e
+`include/seismic_ioctl.h` (biblioteca ↔ driver).
+
 ## Protocolo
 
 Cada mensaje MPI va como `[IV 12 B | texto cifrado | tag GCM 16 B]`. El IV es aleatorio por
