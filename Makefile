@@ -8,13 +8,19 @@
 #   make hello      prueba MPI + cifrado en esta máquina
 #   make hello-cluster  prueba MPI + cifrado entre las 3 máquinas
 #   make check      revisa que esta máquina tenga todo lo necesario
+#   make run-device lee del sensor (/dev/seismic0) en esta máquina
+#
+# Biblioteca del sensor (por defecto la simulada, hasta que exista la real):
+#   make SEISMIC_LIB=mock   enlaza lib/mock (datos simulados, no necesita driver)
+#   make SEISMIC_LIB=real   enlaza lib/libseismic.a (la construye lib/Makefile)
+# Para leer del sensor en el clúster:  make run-cluster DATA=/dev/seismic0
 #   make valgrind   corre en local con valgrind (buscar fugas / accesos inválidos)
 #   make clean
 
 CC      := mpicc
 HOSTCC  := gcc
 CFLAGS  := -O2 -g -Wall -Wextra -std=c11 -D_DEFAULT_SOURCE \
-           -Icluster/common -Icluster/coordinator -Icluster/nodes
+           -Iinclude -Icluster/common -Icluster/coordinator -Icluster/nodes
 LDLIBS  := -lcrypto -lm
 
 BIN     := bin
@@ -22,10 +28,18 @@ CLUSTER := $(BIN)/seismic_cluster
 GEN     := $(BIN)/gen_data
 HELLO   := $(BIN)/mpi_hello
 
+SEISMIC_LIB ?= mock
+MOCK_LIB    := build/lib/libseismic_mock.a
+REAL_LIB    := lib/libseismic.a
+LIBSEISMIC  := $(if $(filter real,$(SEISMIC_LIB)),$(REAL_LIB),$(MOCK_LIB))
+LIBSTAMP    := build/.lib-$(SEISMIC_LIB)
+
 SRCS := cluster/main.c \
         cluster/common/crypto.c \
         cluster/coordinator/coordinator.c \
+        cluster/coordinator/source.c \
         cluster/coordinator/source_csv.c \
+        cluster/coordinator/source_device.c \
         cluster/coordinator/preprocess.c \
         cluster/coordinator/fusion.c \
         cluster/nodes/node.c \
@@ -35,17 +49,33 @@ SRCS := cluster/main.c \
 OBJS := $(SRCS:%.c=build/%.o)
 
 DATA     ?= data/sample.csv
+DEVICE   ?= /dev/seismic0
 KEY      ?= cluster.key
 HOSTFILE ?= cluster/hostfile
 MPIFLAGS ?=
 ARGS     ?=
 
-.PHONY: all key data run run-cluster hello hello-cluster check valgrind clean
+.PHONY: all key data run run-device run-cluster hello hello-cluster check valgrind clean FORCE
 
 all: $(CLUSTER) $(GEN) $(HELLO)
 
-$(CLUSTER): $(OBJS) | $(BIN)
-	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
+$(CLUSTER): $(OBJS) $(LIBSEISMIC) $(LIBSTAMP) | $(BIN)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBSEISMIC) $(LDLIBS)
+
+# Marca de qué biblioteca se enlazó: al cambiar SEISMIC_LIB se vuelve a enlazar.
+$(LIBSTAMP):
+	@mkdir -p build && rm -f build/.lib-* && touch $@
+
+# Biblioteca simulada (lib/mock): no necesita driver ni hardware.
+$(MOCK_LIB): lib/mock/seismic_mock.c include/seismic.h
+	@mkdir -p $(dir $@)
+	$(HOSTCC) -O2 -g -Wall -Wextra -std=c11 -D_DEFAULT_SOURCE -Iinclude -c $< -o build/lib/seismic_mock.o
+	ar rcs $@ build/lib/seismic_mock.o
+
+# Biblioteca real: la construye su propio Makefile en lib/.
+$(REAL_LIB): FORCE
+	@test -f lib/Makefile || { echo "Falta lib/Makefile (biblioteca real). Mientras tanto use SEISMIC_LIB=mock."; exit 1; }
+	$(MAKE) -C lib
 
 build/%.o: %.c $(wildcard cluster/*/*.h)
 	@mkdir -p $(dir $@)
@@ -70,8 +100,11 @@ data: $(GEN)
 run: all
 	mpirun $(MPIFLAGS) -np 4 --oversubscribe $(CLUSTER) $(DATA) --key $(KEY) --out results.csv $(ARGS)
 
+run-device: all
+	mpirun $(MPIFLAGS) -np 4 --oversubscribe $(CLUSTER) $(DEVICE) --key $(KEY) --out results.csv $(ARGS)
+
 run-cluster: all
-	mpirun $(MPIFLAGS) -np 4 --hostfile $(HOSTFILE) $(CURDIR)/$(CLUSTER) $(CURDIR)/$(DATA) \
+	mpirun $(MPIFLAGS) -np 4 --hostfile $(HOSTFILE) $(CURDIR)/$(CLUSTER) $(abspath $(DATA)) \
 	       --key $(CURDIR)/$(KEY) --out $(CURDIR)/results.csv $(ARGS)
 
 hello: $(HELLO)
