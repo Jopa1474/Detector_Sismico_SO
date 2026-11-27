@@ -1,0 +1,68 @@
+mpirun  -np 4 --oversubscribe bin/seismic_cluster data/sample.csv --key cluster.key --out results.csv 
+[nodo 1] listo en host 'jose-pablo-Yoga-7-15ITL5'
+[nodo 2] listo en host 'jose-pablo-Yoga-7-15ITL5'
+[nodo 3] listo en host 'jose-pablo-Yoga-7-15ITL5'
+[coord] procesando 'data/sample.csv' (ventanas de 200 muestras, avance 100)
+[w    1] t=   0.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0023g PGA=0.0051g | IAV=  4.7 NORMAL      servo=  8° alarma=OFF | 5.84 ms
+[w    2] t=   1.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0023g PGA=0.0052g | IAV=  4.6 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w    3] t=   2.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0052g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w    4] t=   3.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0050g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w    5] t=   4.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0050g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w    6] t=   5.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0020g PGA=0.0043g | IAV=  4.1 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w    7] t=   6.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0020g PGA=0.0039g | IAV=  4.0 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w    8] t=   7.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0044g | IAV=  4.2 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w    9] t=   8.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0020g PGA=0.0044g | IAV=  4.1 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w   10] t=   9.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0019g PGA=0.0040g | IAV=  3.7 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w   11] t=  10.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0020g PGA=0.0041g | IAV=  3.9 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w   12] t=  11.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0046g | IAV=  4.5 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w   13] t=  12.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0023g PGA=0.0046g | IAV=  4.6 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w   14] t=  13.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0043g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w   15] t=  14.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0043g | IAV=  4.2 NORMAL      servo=  8° alarma=OFF | 0.06 ms
+[w   16] t=  15.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0055g | IAV=  4.3 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w   17] t=  16.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0055g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.04 ms
+[w   18] t=  17.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0045g | IAV=  4.3 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w   19] t=  18.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0045g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.03 ms
+[w   20] t=  19.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0050g PGA=0.0111g | IAV= 10.0 NORMAL      servo= 18° alarma=OFF | 0.04 ms
+[w   21] t=  20.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0068g PGA=0.0111g | IAV= 13.6 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   22] t=  21.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0069g PGA=0.0116g | IAV= 13.8 NORMAL      servo= 25° alarma=OFF | 0.05 ms
+[w   23] t=  22.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0070g PGA=0.0116g | IAV= 14.0 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   24] t=  23.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0071g PGA=0.0117g | IAV= 14.2 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   25] t=  24.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0071g PGA=0.0117g | IAV= 14.2 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   26] t=  25.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0070g PGA=0.0121g | IAV= 14.0 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   27] t=  26.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0068g PGA=0.0121g | IAV= 13.7 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   28] t=  27.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0069g PGA=0.0106g | IAV= 13.8 NORMAL      servo= 25° alarma=OFF | 0.04 ms
+[w   29] t=  28.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0069g PGA=0.0104g | IAV= 13.9 NORMAL      servo= 25° alarma=OFF | 0.06 ms
+[w   30] t=  29.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0051g PGA=0.0103g | IAV= 10.3 NORMAL      servo= 18° alarma=OFF | 0.04 ms
+[w   31] t=  30.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0051g | IAV=  4.1 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w   32] t=  31.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0020g PGA=0.0048g | IAV=  4.0 NORMAL      servo=  7° alarma=OFF | 0.03 ms
+[w   33] t=  32.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0050g | IAV=  4.2 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w   34] t=  33.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0050g | IAV=  4.2 NORMAL      servo=  8° alarma=OFF | 0.04 ms
+[w   35] t=  34.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0050g PGA=0.0140g | IAV= 10.0 NORMAL      servo= 18° alarma=OFF | 0.03 ms
+[w   36] t=  35.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0133g PGA=0.0332g | IAV= 26.5 BAJA        servo= 48° alarma=OFF | 0.03 ms
+[w   37] t=  36.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0229g PGA=0.0441g | IAV= 45.9 MODERADA    servo= 83° alarma=OFF | 0.03 ms
+[w   38] t=  37.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0332g PGA=0.0603g | IAV= 66.4 ELEVADA     servo=119° alarma=OFF | 0.03 ms
+[w   39] t=  38.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0415g PGA=0.0738g | IAV= 83.0 MUY_ELEVADA servo=149° alarma=OFF | 0.03 ms
+[w   40] t=  39.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0487g PGA=0.0849g | IAV= 97.5 MUY_ELEVADA servo=175° alarma=OFF | 0.05 ms
+[w   41] t=  40.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0535g PGA=0.0889g | IAV=100.0 MUY_ELEVADA servo=180° alarma=OFF | 0.03 ms
+[w   42] t=  41.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0555g PGA=0.0889g | IAV=100.0 MUY_ELEVADA servo=180° alarma=OFF | 0.03 ms
+[w   43] t=  42.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0562g PGA=0.0886g | IAV=100.0 MUY_ELEVADA servo=180° alarma=OFF | 0.03 ms
+[w   44] t=  43.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0539g PGA=0.0863g | IAV=100.0 MUY_ELEVADA servo=180° alarma=OFF | 0.05 ms
+[w   45] t=  44.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0492g PGA=0.0757g | IAV= 98.5 MUY_ELEVADA servo=177° alarma=OFF | 0.05 ms
+[w   46] t=  45.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0427g PGA=0.0694g | IAV= 85.3 MUY_ELEVADA servo=154° alarma=OFF | 0.04 ms
+[w   47] t=  46.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0340g PGA=0.0568g | IAV= 67.9 ELEVADA     servo=122° alarma=OFF | 0.04 ms
+[w   48] t=  47.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0242g PGA=0.0427g | IAV= 48.4 MODERADA    servo= 87° alarma=OFF | 0.04 ms
+[w   49] t=  48.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0143g PGA=0.0318g | IAV= 28.7 BAJA        servo= 52° alarma=OFF | 0.04 ms
+[w   50] t=  49.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0055g PGA=0.0152g | IAV= 10.9 NORMAL      servo= 20° alarma=OFF | 0.05 ms
+[w   51] t=  50.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0042g | IAV=  4.3 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w   52] t=  51.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0042g | IAV=  4.3 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w   53] t=  52.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0021g PGA=0.0047g | IAV=  4.2 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w   54] t=  53.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0047g | IAV=  4.3 NORMAL      servo=  8° alarma=OFF | 0.06 ms
+[w   55] t=  54.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0043g | IAV=  4.4 NORMAL      servo=  8° alarma=OFF | 0.06 ms
+[w   56] t=  55.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0022g PGA=0.0041g | IAV=  4.3 NORMAL      servo=  8° alarma=OFF | 0.05 ms
+[w   57] t=  56.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0023g PGA=0.0045g | IAV=  4.5 NORMAL      servo=  8° alarma=OFF | 0.27 ms
+[w   58] t=  57.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0023g PGA=0.0045g | IAV=  4.6 NORMAL      servo=  8° alarma=OFF | 0.04 ms
+[w   59] t=  58.0s | STA/LTA= 0.00 trig=0 | f_dom= 0.00Hz | RMS=0.0023g PGA=0.0044g | IAV=  4.5 NORMAL      servo=  8° alarma=OFF | 0.04 ms
+[coord] fin: 59 ventanas procesadas
+[nodo 2] fin: 59 ventanas procesadas
+[nodo 1] fin: 59 ventanas procesadas
+[nodo 3] fin: 59 ventanas procesadas

@@ -5,6 +5,9 @@
 #   make data       genera datos sintéticos en data/sample.csv
 #   make run        corre los 4 procesos en esta máquina (pruebas)
 #   make run-cluster  corre en las 3 máquinas usando cluster/hostfile
+#   make hello      prueba MPI + cifrado en esta máquina
+#   make hello-cluster  prueba MPI + cifrado entre las 3 máquinas
+#   make check      revisa que esta máquina tenga todo lo necesario
 #   make valgrind   corre en local con valgrind (buscar fugas / accesos inválidos)
 #   make clean
 
@@ -17,6 +20,7 @@ LDLIBS  := -lcrypto -lm
 BIN     := bin
 CLUSTER := $(BIN)/seismic_cluster
 GEN     := $(BIN)/gen_data
+HELLO   := $(BIN)/mpi_hello
 
 SRCS := cluster/main.c \
         cluster/common/crypto.c \
@@ -36,9 +40,9 @@ HOSTFILE ?= cluster/hostfile
 MPIFLAGS ?=
 ARGS     ?=
 
-.PHONY: all key data run run-cluster valgrind clean
+.PHONY: all key data run run-cluster hello hello-cluster check valgrind clean
 
-all: $(CLUSTER) $(GEN)
+all: $(CLUSTER) $(GEN) $(HELLO)
 
 $(CLUSTER): $(OBJS) | $(BIN)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
@@ -49,6 +53,9 @@ build/%.o: %.c $(wildcard cluster/*/*.h)
 
 $(GEN): tools/gen_data.c | $(BIN)
 	$(HOSTCC) -O2 -Wall -Wextra -std=c11 -o $@ $< -lm
+
+$(HELLO): tools/mpi_hello.c cluster/common/crypto.c $(wildcard cluster/common/*.h) | $(BIN)
+	$(CC) $(CFLAGS) -o $@ tools/mpi_hello.c cluster/common/crypto.c $(LDLIBS)
 
 $(BIN):
 	mkdir -p $(BIN)
@@ -66,6 +73,15 @@ run: all
 run-cluster: all
 	mpirun $(MPIFLAGS) -np 4 --hostfile $(HOSTFILE) $(CURDIR)/$(CLUSTER) $(CURDIR)/$(DATA) \
 	       --key $(CURDIR)/$(KEY) --out $(CURDIR)/results.csv $(ARGS)
+
+hello: $(HELLO)
+	mpirun $(MPIFLAGS) -np 4 --oversubscribe $(HELLO) --key $(KEY)
+
+hello-cluster: $(HELLO)
+	mpirun $(MPIFLAGS) -np 4 --hostfile $(HOSTFILE) $(CURDIR)/$(HELLO) --key $(CURDIR)/$(KEY)
+
+check:
+	@bash scripts/check_node.sh
 
 # OpenMPI reporta "fugas" propias en MPI_Init/MPI_Finalize y libpmix: son normales.
 # Lo importante es que no aparezca ningún reporte con frames de nuestros .c

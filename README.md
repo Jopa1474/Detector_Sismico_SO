@@ -53,13 +53,16 @@ SEISMIC_DEBUG_CRYPTO=1 make run
 
 ## Uso en las 3 máquinas físicas
 
+Guía detallada con solución de problemas: [docs/cluster_setup.md](docs/cluster_setup.md).
+
 1. Las 3 máquinas en la misma red, con Linux nativo y las mismas versiones de OpenMPI.
 2. SSH sin contraseña desde la máquina 1 hacia las otras dos (`ssh-keygen` + `ssh-copy-id`).
 3. Clonar el repo **en la misma ruta** en las 3 (p. ej. `~/Detector_Sismico_SO`) y correr `make` en cada una.
 4. Generar la llave una sola vez y copiarla: `make key && scp cluster.key usuario@maquina2:~/Detector_Sismico_SO/` (igual para la 3).
 5. Copiar también `data/sample.csv` solo en la máquina 1 (el coordinador es el único que lo lee).
 6. `cp cluster/hostfile.example cluster/hostfile` y poner las IPs reales.
-7. `make run-cluster` (agregar `ARGS=--realtime` para la demo con el monitor del sistema abierto).
+7. Verificar con `make check` y `make hello-cluster` (debe mostrar 3 máquinas distintas).
+8. `make run-cluster` (agregar `ARGS=--realtime` para la demo con el monitor del sistema abierto).
 
 Si `mpirun` se queda pegado entre máquinas, casi siempre es el firewall o que elige la
 interfaz de red equivocada: probar con `MPIFLAGS="--mca btl_tcp_if_include <interfaz>"`.
